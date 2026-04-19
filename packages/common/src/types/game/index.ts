@@ -12,18 +12,20 @@ export type Answer = {
   points: number
 }
 
+export type Question = {
+  question: string
+  image?: string
+  video?: string
+  audio?: string
+  answers: string[]
+  solution: number
+  cooldown: number
+  time: number
+}
+
 export type Quizz = {
   subject: string
-  questions: {
-    question: string
-    image?: string
-    video?: string
-    audio?: string
-    answers: string[]
-    solution: number
-    cooldown: number
-    time: number
-  }[]
+  questions: Question[]
 }
 
 export type QuizzWithId = Quizz & { id: string }

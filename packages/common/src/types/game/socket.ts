@@ -1,6 +1,8 @@
 import type {
   GameUpdateQuestion,
   Player,
+  Question,
+  Quizz,
   QuizzWithId,
 } from "@rahoot/common/types/game"
 import type { Status, StatusDataMap } from "@rahoot/common/types/game/status"
@@ -65,6 +67,17 @@ export interface ServerToClientEvents {
   "manager:removePlayer": (_playerId: string) => void
   "manager:errorMessage": (_message: string) => void
   "manager:playerKicked": (_playerId: string) => void
+
+  // Quiz creator events
+  "manager:albertStatus": (_data: {
+    configured: boolean
+    fromEnv: boolean
+  }) => void
+  "manager:albertKeySaved": () => void
+  "manager:modelsList": (_models: string[]) => void
+  "manager:questionsGenerated": (_questions: Question[]) => void
+  "manager:quizzSaved": (_data: { id: string }) => void
+  "manager:quizzDeleted": () => void
 }
 
 export interface ClientToServerEvents {
@@ -85,6 +98,19 @@ export interface ClientToServerEvents {
   "player:selectedAnswer": (
     _message: MessageWithoutStatus<{ answerKey: number }>,
   ) => void
+
+  // Quiz creator actions
+  "manager:refreshQuizzList": () => void
+  "manager:getAlbertStatus": () => void
+  "manager:setAlbertKey": (_key: string) => void
+  "manager:getModels": () => void
+  "manager:generateQuestions": (_data: {
+    topic: string
+    count: number
+    model: string
+  }) => void
+  "manager:saveQuizz": (_data: { filename: string; quizz: Quizz }) => void
+  "manager:deleteQuizz": (_data: { id: string }) => void
 
   // Common
   disconnect: () => void

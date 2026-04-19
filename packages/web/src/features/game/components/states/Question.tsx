@@ -1,4 +1,5 @@
 import type { CommonStatusDataMap } from "@rahoot/common/types/game/status"
+import LatexRenderer from "@rahoot/web/features/game/components/LatexRenderer"
 import { SFX_SHOW_SOUND } from "@rahoot/web/features/game/utils/constants"
 import { useEffect } from "react"
 import useSound from "use-sound"
@@ -18,7 +19,7 @@ const Question = ({ data: { question, image, cooldown } }: Props) => {
     <section className="relative mx-auto flex h-full w-full max-w-7xl flex-1 flex-col items-center px-4">
       <div className="flex flex-1 flex-col items-center justify-center gap-5">
         <h2 className="anim-show text-center text-3xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {question}
+          <LatexRenderer text={question} />
         </h2>
 
         {Boolean(image) && (

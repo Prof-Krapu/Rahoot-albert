@@ -18,9 +18,9 @@ const ManagerAuthPage = () => {
   const [isAuth, setIsAuth] = useState(false)
   const [quizzList, setQuizzList] = useState<QuizzWithId[]>([])
 
-  useEvent("manager:quizzList", (quizzList) => {
+  useEvent("manager:quizzList", (list) => {
     setIsAuth(true)
-    setQuizzList(quizzList)
+    setQuizzList(list)
   })
 
   useEvent("manager:gameCreated", ({ gameId, inviteCode }) => {
@@ -32,8 +32,8 @@ const ManagerAuthPage = () => {
   const handleAuth = (password: string) => {
     socket?.emit("manager:auth", password)
   }
+
   const handleCreate = (quizzId: string) => {
-    console.log("quizzId", quizzId)
     socket?.emit("game:create", quizzId)
   }
 
