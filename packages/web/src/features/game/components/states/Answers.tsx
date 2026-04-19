@@ -1,5 +1,6 @@
 import type { CommonStatusDataMap } from "@rahoot/common/types/game/status"
 import AnswerButton from "@rahoot/web/features/game/components/AnswerButton"
+import LatexRenderer from "@rahoot/web/features/game/components/LatexRenderer"
 import {
   useEvent,
   useSocket,
@@ -80,7 +81,7 @@ const Answers = ({
     <div className="flex h-full flex-1 flex-col justify-between">
       <div className="mx-auto inline-flex h-full w-full max-w-7xl flex-1 flex-col items-center justify-center gap-5">
         <h2 className="text-center text-2xl font-bold text-white drop-shadow-lg md:text-4xl lg:text-5xl">
-          {question}
+          <LatexRenderer text={question} />
         </h2>
 
         {Boolean(audio) && !player && (
@@ -132,7 +133,7 @@ const Answers = ({
               icon={ANSWERS_ICONS[key]}
               onClick={handleAnswer(key)}
             >
-              {answer}
+              <LatexRenderer text={answer} />
             </AnswerButton>
           ))}
         </div>

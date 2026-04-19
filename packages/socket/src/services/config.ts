@@ -1,4 +1,4 @@
-import { QuizzWithId } from "@rahoot/common/types/game"
+import type { Quizz, QuizzWithId } from "@rahoot/common/types/game"
 import fs from "fs"
 import { resolve } from "path"
 
@@ -8,6 +8,13 @@ const getPath = (path: string = "") =>
   inContainerPath
     ? resolve(inContainerPath, path)
     : resolve(process.cwd(), "../../config", path)
+
+const slugify = (name: string) =>
+  name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 60) || "quiz"
 
 class Config {
   static init() {
@@ -123,6 +130,47 @@ class Config {
 
       return []
     }
+  }
+
+  static getAlbertKey(): string | undefined {
+    return process.env.ALBERT_API_KEY ?? Config.game().albertApiKey
+  }
+
+  static setAlbertKey(key: string): void {
+    const current = Config.game()
+    fs.writeFileSync(
+      getPath("game.json"),
+      JSON.stringify({ ...current, albertApiKey: key }, null, 2),
+    )
+  }
+
+  static saveQuizz(filename: string, quizz: Quizz): string {
+    const slug = slugify(filename)
+    let finalSlug = slug
+    let counter = 1
+
+    while (fs.existsSync(getPath(`quizz/${finalSlug}.json`))) {
+      finalSlug = `${slug}-${counter}`
+      counter++
+    }
+
+    fs.writeFileSync(
+      getPath(`quizz/${finalSlug}.json`),
+      JSON.stringify(quizz, null, 2),
+    )
+
+    return finalSlug
+  }
+
+  static deleteQuizz(id: string): void {
+    const safe = id.replace(/[^a-z0-9-_]/gi, "")
+    const filePath = getPath(`quizz/${safe}.json`)
+
+    if (!fs.existsSync(filePath)) {
+      throw new Error("Quiz introuvable")
+    }
+
+    fs.unlinkSync(filePath)
   }
 }
 

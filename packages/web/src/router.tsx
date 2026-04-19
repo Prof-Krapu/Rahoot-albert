@@ -3,6 +3,7 @@ import PlayerAuthPage from "@rahoot/web/pages/game/auth/page"
 import { GameLayout } from "@rahoot/web/pages/game/layout"
 import { createBrowserRouter, RouterProvider } from "react-router"
 import AuthManagerPage from "./pages/game/auth/manager/page"
+import CreatePage from "./pages/game/create/page"
 import ManagerGamePage from "./pages/game/party/manager/page"
 import PlayerGamePage from "./pages/game/party/page"
 
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
           {
             path: "/manager",
             element: <AuthManagerPage />,
+          },
+          {
+            path: "/create",
+            element: <CreatePage />,
           },
         ],
       },
